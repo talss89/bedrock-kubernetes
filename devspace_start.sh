@@ -46,15 +46,8 @@ Welcome to your development container!
 
 This is how you can work with it:
 - Files will be synchronized between your local machine and this container
-- Some ports will be forwarded, so you can access this container via localhost
+- Visual Studio Code has been started, and will allow you to work inside the development container
 "
 
-# Set terminal prompt
-export PS1="\[${COLOR_BLUE}\]devspace\[${COLOR_RESET}\] ./\W \[${COLOR_BLUE}\]\\$\[${COLOR_RESET}\] "
-if [ -z "$BASH" ]; then export PS1="$ "; fi
-
-# Include project's bin/ folder in PATH
-export PATH="./bin:$PATH"
-
 # Open shell
-bash --norc
+bash
