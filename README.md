@@ -16,7 +16,7 @@ This project is a starting point for bootstrapping WordPress (with Bedrock) on K
 
 It provides both a full dev environment (with Visual Studio Code integration), and a deploy mechanism. 
 
-The project uses Devspace to watch and sync your files between your local machine and the cluster, allowing you to develop using your local machine (Windows, Mac, Linux, whatever), but giving you the flexibility to offload onto other hardware if required.
+The project uses [Devspace](https://www.devspace.sh/) and the [Bitpoke WordPress runtime](https://github.com/bitpoke/stack-runtimes) to watch and sync your files between your local machine and the cluster, allowing you to develop using your local machine (Windows, Mac, Linux, whatever), but giving you the flexibility to offload onto other hardware if required.
 
 You can choose to run a local Kubernetes cluster (like `minikube`) or point it straight at services like AWS EKS, GKE, Linode LKE or DigitalOcean. Or provision your own cluster on your own hardware another way.
 
