@@ -5,58 +5,59 @@
 </p>
 
 <p align="center">
-  <a href="https://packagist.org/packages/roots/bedrock">
-    <img alt="Packagist Installs" src="https://img.shields.io/packagist/dt/roots/bedrock?label=projects%20created&colorB=2b3072&colorA=525ddc&style=flat-square">
-  </a>
-
-  <a href="https://packagist.org/packages/roots/wordpress">
-    <img alt="roots/wordpress Packagist Downloads" src="https://img.shields.io/packagist/dt/roots/wordpress?label=roots%2Fwordpress%20downloads&logo=roots&logoColor=white&colorB=2b3072&colorA=525ddc&style=flat-square">
-  </a>
-  
-  <img src="https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/roots/bedrock/master/composer.json&label=wordpress&logo=roots&logoColor=white&query=$.require[%22roots/wordpress%22]&colorB=2b3072&colorA=525ddc&style=flat-square">
-
-  <a href="https://github.com/roots/bedrock/actions/workflows/ci.yml">
-    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/roots/bedrock/ci.yml?branch=master&logo=github&label=CI&style=flat-square">
-  </a>
-
-  <a href="https://twitter.com/rootswp">
-    <img alt="Follow Roots" src="https://img.shields.io/badge/follow%20@rootswp-1da1f2?logo=twitter&logoColor=ffffff&message=&style=flat-square">
-  </a>
+  But Kubernetes.
 </p>
 
-<p align="center">WordPress boilerplate with Composer, easier configuration, and an improved folder structure</p>
+> :warning: Although you could use this in production, expect to be stabbing around in the dark. I'm working on a set of tools which will further improve the dev, deploy and ops experience. If you have little experience with K8s, WordPress, PHP and Nginx, it's worth waiting until the v1.0.0 release.
 
-<p align="center">
-  <a href="https://roots.io/bedrock/">Website</a> &nbsp;&nbsp; <a href="https://roots.io/bedrock/docs/installation/">Documentation</a> &nbsp;&nbsp; <a href="https://github.com/roots/bedrock/releases">Releases</a> &nbsp;&nbsp; <a href="https://discourse.roots.io/">Community</a>
-</p>
+## Introduction
 
-## Sponsors
+This project is a starting point for bootstrapping WordPress (with Bedrock) on Kubernetes.
 
-Bedrock is an open source project and completely free to use. If you've benefited from our projects and would like to support our future endeavors, please consider [sponsoring Roots](https://github.com/sponsors/roots).
+It provides both a full dev environment (with Visual Studio Code integration), and a deploy mechanism. 
 
-<div align="center">
-<a href="https://k-m.com/"><img src="https://cdn.roots.io/app/uploads/km-digital.svg" alt="KM Digital" width="120" height="90"></a> <a href="https://carrot.com/"><img src="https://cdn.roots.io/app/uploads/carrot.svg" alt="Carrot" width="120" height="90"></a> <a href="https://wordpress.com/"><img src="https://cdn.roots.io/app/uploads/wordpress.svg" alt="WordPress.com" width="120" height="90"></a> <a href="https://pantheon.io/"><img src="https://cdn.roots.io/app/uploads/pantheon.svg" alt="Pantheon" width="120" height="90"></a> <a href="https://worksitesafety.ca/careers/"><img src="https://cdn.roots.io/app/uploads/worksite-safety.svg" alt="Worksite Safety" width="120" height="90"></a> <a href="https://www.copiadigital.com/"><img src="https://cdn.roots.io/app/uploads/copia-digital.svg" alt="Copia Digital" width="120" height="90"></a> 
-</div>
+The project uses Devspace to watch and sync your files between your local machine and the cluster, allowing you to develop using your local machine (Windows, Mac, Linux, whatever), but giving you the flexibility to offload onto other hardware if required.
 
-## Overview
+You can choose to run a local Kubernetes cluster (like `minikube`) or point it straight at services like AWS EKS, GKE, Linode LKE or DigitalOcean. Or provision your own cluster on your own hardware another way.
 
-Bedrock is a WordPress boilerplate for developers that want to manage their projects with Git and Composer. Much of the philosophy behind Bedrock is inspired by the [Twelve-Factor App](http://12factor.net/) methodology, including the [WordPress specific version](https://roots.io/twelve-factor-wordpress/).
+## Why?
 
-- Better folder structure
-- Dependency management with [Composer](https://getcomposer.org)
-- Easy WordPress configuration with environment specific files
-- Environment variables with [Dotenv](https://github.com/vlucas/phpdotenv)
-- Autoloader for mu-plugins (use regular plugins as mu-plugins)
-- Enhanced security (separated web root and secure passwords with [wp-password-bcrypt](https://github.com/roots/wp-password-bcrypt))
+Because Kubernetes is 'cool'.
+
+No, there are actually a number of real benefits to this approach:
+
+- **Full parity between development and production.** Your dev environment runs the same stack as production, with the same architecture.
+- **Develop locally, or decide to offload onto a cluster at any point.** We all know the frustration of dev environments eating our local resources. We're using this approach to work on a project with ~50,000 Woocommerce products, backed by Elasticsearch. Our local machines can't handle that.
+- **Zero downtime deployments with rollback** Deploy a new production release, and if it fails the healthchecks, it's rolled back before serving it's first visitor.
+- **Your app is built with scalability in mind from day 0** This approach facilitates scaling - your app is containerised, and running as a deployment on Kubernetes. If / when you need multi-master SQL, horizontal auto-scaling, failover, canary deploys, it's all there waiting.
+- **Use your hardware efficiently** Run multiple services on the same hardware - like you do with VMs. But unlike a VM, bring new machines online or scale down your cluster automatically based on load.
+- **Declarative backups** Declare backup schedules using established tools like Velero
 
 ## Getting Started
 
-See the [Bedrock installation documentation](https://roots.io/bedrock/docs/installation/).
+### Ingredients
 
-## Stay Connected
+Make sure you have up-to-date versions of the following software:
 
-- Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
-- Participate on [Roots Discourse](https://discourse.roots.io/)
-- Follow [@rootswp on Twitter](https://twitter.com/rootswp)
-- Read the [Roots Blog](https://roots.io/blog/)
-- Subscribe to the [Roots Newsletter](https://roots.io/newsletter/)
+- [Devspace](https://www.devspace.sh/docs/getting-started/installation)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+- Visual Studio Code (**[with CLI enabled, if you're on Mac](https://code.visualstudio.com/docs/setup/mac#:~:text=Launching%20from%20the%20command%20line,executing%20the%20Shell%20Command%3A%20Install%20%27code%27%20command%20in%20PATH%20command.)**)
+
+You will also need a Kubernetes cluster `1.24` or newer. This can be local, or remote. Just make sure you can `kubectl get namespaces` without error. Make sure you have an Ingress controller installed.
+
+If you want to run a local Kubernetes instance, I'd recommend [`minikube`](https://kubernetes.io/docs/tasks/tools/). You can install an ingress controller via `minikube addons enable ingress`.
+
+Make sure you create a namespace `kubectl create ns <yourname>` and switch to it.
+
+### Start a project
+
+1. Download this repo
+2. Edit `./devspace.yaml` and change the `name:` property on line 2 to the name of your project. Keep it short, and make it DNS-like.
+3. Make sure you have the right Kubernetes context set
+4. Run `devspace build` - After answering a few questions, your app container will then be built on the cluster, and hosted in a local registry.
+5. Run `devspace dev` - Your app will then be deployed in dev mode, and Visual Studio Code will start.
+6. Keep the `devspace dev` process running while you develop in Visual Studio Code
+
+If running locally, you'll need to set up a host record to point to your cluster in order to access your site. For `minikube`, make sure `minikube tunnel` is running, and point your host record at `127.0.0.1`.
+
+**Do not attempt to use HTTPS for local clusters**. I have a feature in the pipeline for this, but it's not ready yet.
